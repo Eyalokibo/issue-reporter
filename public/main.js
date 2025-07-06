@@ -4,12 +4,12 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 // 2. הגדרות Firebase שלך (העתק מה-Firebase Console שלך)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "SENDER_ID",
-  appId: "APP_ID"
+  apiKey: "AIzaSyAxvUtgrI5cOI9nYSh77vl8EkFtdWFxMXg",
+  authDomain: "issuereporterbot.firebaseapp.com",
+  projectId: "issuereporterbot",
+  storageBucket: "issuereporterbot.firebasestorage.app",
+  messagingSenderId: "142138096383",
+  appId: "1:142138096383:web:5b5d3afb366bd45f36eaca"
 };
 
 // 3. אתחול Firebase
