@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAxvUtgrI5cOI9nYSh77vl8EkFtdWFxMXg",
   authDomain: "issuereporterbot.firebaseapp.com",
   projectId: "issuereporterbot",
-  storageBucket: "issuereporterbot.firebasestorage.app",
+  storageBucket: "isissuereporterbot.appspot.com",
   messagingSenderId: "142138096383",
   appId: "1:142138096383:web:5b5d3afb366bd45f36eaca"
 };
