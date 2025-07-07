@@ -24,12 +24,17 @@ document.getElementById("issueForm").addEventListener("submit", async (e) => {
   const email = document.querySelector('input[name="email"]').value;
   const description = document.querySelector('textarea[name="description"]').value;
 
+  
+
   const customId = "issue-" + Date.now();
 
   const issueData = {
     name,
     email,
     description,
+    systemnumber,
+    failersolved,
+    location,
     date: new Date().toISOString()
   };
 
