@@ -8,11 +8,11 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
-# הגדרת חיבור למסד נתונים SQLite
+# חיבור למסד נתונים SQLite
 engine = create_engine('sqlite:///issues.db')
 Base = declarative_base()
 
-# הגדרת מודל הטבלה
+# מודל הטבלה
 class Issue(Base):
     __tablename__ = 'issues'
     id = Column(Integer, primary_key=True)
@@ -26,17 +26,22 @@ class Issue(Base):
     status = Column(String(20), default='פתוחה')
     created_at = Column(DateTime, default=datetime.utcnow)
 
-# יצירת הטבלה אם לא קיימת
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
-# נקודת API לשליחת תקלה
+# API לשליחת תקלה
 @app.route('/submit_issue', methods=['POST'])
 def submit_issue():
     try:
-        data = request.get_json(force=True)  # force=True לוודא שתמיד נקלוט JSON
-        print("📥 נתונים שהתקבלו:", data)
+        # קבלת הנתונים מהבקשה
+        data = request.get_json(force=True)
+        print("📥 JSON שהתקבל:", data)
 
+        # הדפסת שדות לצורך דיבוג
+        for field in ["name", "email", "description", "systemnumber", "location", "failersolved", "date"]:
+            print(f"{field}: {data.get(field)}")
+
+        # יצירת אובייקט ושמירה למסד
         session = Session()
         issue = Issue(
             name=data.get('name'),
@@ -50,12 +55,14 @@ def submit_issue():
         session.add(issue)
         session.commit()
 
+        print("✅ הכל נשמר בהצלחה – מחזיר תשובה ללקוח")
         return jsonify({"message": "התקלה נשלחה בהצלחה!"}), 200
-    except Exception as e:
-        print("🔥 שגיאה בשרת:", e)
-        return jsonify({"message": "אירעה שגיאה בשרת"}), 500
 
-# נקודת API לקבלת רשימת תקלות
+    except Exception as e:
+        print("🔥 שגיאה בשרת:", str(e))
+        return jsonify({"message": "אירעה שגיאה בשרת", "error": str(e)}), 500
+
+# API לשליפת כל התקלות
 @app.route('/issues', methods=['GET'])
 def get_issues():
     session = Session()
@@ -73,7 +80,7 @@ def get_issues():
         'created_at': i.created_at.isoformat()
     } for i in issues])
 
-# הרצת האפליקציה (לשימוש ב-Locally או ב-Render)
+# הרצת האפליקציה (Render יחליף את PORT אוטומטית)
 if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5000))
