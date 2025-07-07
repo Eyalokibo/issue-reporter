@@ -3,8 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     console.log("🔄 טופס נשלח – מתחילים עיבוד");
 
+    // קריאת ערכים מהטופס
     const name = document.querySelector('input[name="name"]').value;
     const email = document.querySelector('input[name="email"]').value;
     const description = document.querySelector('textarea[name="description"]').value;
@@ -30,14 +32,24 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(issueData)
       });
 
-      const result = await response.json();
-      console.log("✅ תגובת שרת:", result);
+      const text = await response.text();
+      console.log("📨 תגובת שרת (raw):", text);
+
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (parseError) {
+        console.error("⚠️ לא ניתן לפענח JSON:", parseError);
+        alert("שגיאה: תגובת שרת לא תקינה.");
+        return;
+      }
 
       if (response.ok) {
-        alert(result.message);
+        alert(result.message || "התקלה נשלחה בהצלחה!");
       } else {
-        alert("❌ שגיאה בשרת: " + result.message);
+        alert("❌ שגיאה בשרת: " + (result.message || "לא ידועה"));
       }
+
     } catch (error) {
       console.error("🔥 שגיאת fetch:", error);
       alert("אירעה שגיאה בעת שליחת הדיווח.");
