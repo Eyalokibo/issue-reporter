@@ -9,6 +9,10 @@ document.getElementById("issueForm").addEventListener("submit", async (e) => {
   const name = document.querySelector('input[name="name"]').value;
   const email = document.querySelector('input[name="email"]').value;
   const description = document.querySelector('textarea[name="description"]').value;
+  const systemnumber = document.querySelector('input[name="system number"]').value;
+  const date = document.querySelector('input[name="date"]').value;
+  const location = document.querySelector('input[name="location"]').value;
+
 
   // יצירת מזהה באנגלית
   const customId = "issue-" + Date.now();
