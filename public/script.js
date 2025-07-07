@@ -22,6 +22,8 @@ document.getElementById("issueForm").addEventListener("submit", async (e) => {
     name,
     email,
     description,
+    systemnumber,
+    location,
     date: new Date().toISOString()
   };
 
