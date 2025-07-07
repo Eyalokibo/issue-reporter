@@ -2,25 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>System Failure report</title>
+  <title>System Failure Report</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>System Failure Report</h1>
   <form id="issueForm">
-    <input type="text" name="name" placeholder="operator full name" required />
-    <input type="email" name="email" placeholder="operator e-mail" required />
-    <textarea name="description" placeholder="Failure description" required></textarea>
-    <button type="submit"<send></button>
+    <input type="text" name="name" placeholder="Operator Full Name" required />
+    <input type="email" name="email" placeholder="Operator E-mail" required />
+    <textarea name="description" placeholder="Failure Description" required></textarea>
+
+    <!-- שדות חדשים שנוספו -->
+    <input type="text" name="systemnumber" placeholder="System Number" required />
+    <input type="text" name="location" placeholder="Location" required />
+    <input type="date" name="date" required />
+
+    <button type="submit">שלח</button>
   </form>
 
   <!-- צ'אט-בוט -->
-  https://console.dialogflow.com/api-client/demo/embedded/YOUR-BOT-ID
-  
-<script type="module" src="main.js"></script>
+  <!-- שים לב שצריך להטמיע iframe תקין כאן אם אתה באמת משתמש ב-Dialogflow -->
+  <iframe
+    width="350"
+    height="430"
+    allow="microphone;"
+    src="https://console.dialogflow.com/api-client/demo/embedded/YOUR-BOT-ID">
+  </iframe>
+
+  <script type="module" src="main.js"></script>
 </body>
 </html>
-
-</body>
-</html>
-
