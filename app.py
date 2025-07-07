@@ -8,11 +8,11 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
-# הגדרת מסד נתונים SQLite
+# הגדרת חיבור למסד נתונים SQLite
 engine = create_engine('sqlite:///issues.db')
 Base = declarative_base()
 
-# הגדרת טבלה
+# הגדרת מודל הטבלה
 class Issue(Base):
     __tablename__ = 'issues'
     id = Column(Integer, primary_key=True)
@@ -26,15 +26,15 @@ class Issue(Base):
     status = Column(String(20), default='פתוחה')
     created_at = Column(DateTime, default=datetime.utcnow)
 
-# יצירת הטבלה במסד
+# יצירת הטבלה אם לא קיימת
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
-# נקודת שליחה
+# נקודת API לשליחת תקלה
 @app.route('/submit_issue', methods=['POST'])
 def submit_issue():
     try:
-        data = request.get_json()
+        data = request.get_json(force=True)  # force=True לוודא שתמיד נקלוט JSON
         print("📥 נתונים שהתקבלו:", data)
 
         session = Session()
@@ -55,7 +55,7 @@ def submit_issue():
         print("🔥 שגיאה בשרת:", e)
         return jsonify({"message": "אירעה שגיאה בשרת"}), 500
 
-# נקודת שליפה
+# נקודת API לקבלת רשימת תקלות
 @app.route('/issues', methods=['GET'])
 def get_issues():
     session = Session()
@@ -73,7 +73,7 @@ def get_issues():
         'created_at': i.created_at.isoformat()
     } for i in issues])
 
-# הרצת האפליקציה
+# הרצת האפליקציה (לשימוש ב-Locally או ב-Render)
 if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5000))
