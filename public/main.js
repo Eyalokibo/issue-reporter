@@ -1,50 +1,46 @@
-// 1. ייבוא ספריות Firebase
-import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("issueForm");
 
-// 2. הגדרות Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyAxvUtgrI5cOI9nYSh77vl8EkFtdWFxMXg",
-  authDomain: "issuereporterbot.firebaseapp.com",
-  projectId: "issuereporterbot",
-  storageBucket: "isissuereporterbot.appspot.com",
-  messagingSenderId: "142138096383",
-  appId: "1:142138096383:web:5b5d3afb366bd45f36eaca"
-};
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    console.log("🔄 טופס נשלח – מתחילים עיבוד");
 
-// 3. אתחול Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    const name = document.querySelector('input[name="name"]').value;
+    const email = document.querySelector('input[name="email"]').value;
+    const description = document.querySelector('textarea[name="description"]').value;
+    const systemnumber = document.querySelector('input[name="systemnumber"]').value;
+    const location = document.querySelector('input[name="location"]').value;
+    const failersolved = document.querySelector('input[name="failersolved"]').value;
+    const date = document.querySelector('input[name="date"]').value;
 
-// 4. שליחת הטופס ל-Firebase
-document.getElementById("issueForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+    const issueData = {
+      name,
+      email,
+      description,
+      systemnumber,
+      location,
+      failersolved,
+      date
+    };
 
-  const name = document.querySelector('input[name="name"]').value;
-  const email = document.querySelector('input[name="email"]').value;
-  const description = document.querySelector('textarea[name="description"]').value;
-  const systemnumber = document.querySelector('input[name="systemnumber"]').value;
-  const failersolved = document.querySelector('input[name="failersolved"]').value;
-  const location = document.querySelector('input[name="location"]').value;
-  const date = document.querySelector('input[name="date"]').value;
+    try {
+      const response = await fetch("https://issue-reporter.onrender.com/submit_issue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(issueData)
+      });
 
-  const customId = "issue-" + Date.now();
+      const result = await response.json();
+      console.log("✅ תגובת שרת:", result);
 
-  const issueData = {
-    name,
-    email,
-    description,
-    systemnumber,
-    failersolved,
-    location,
-    date
-  };
-
-  try {
-    await setDoc(doc(db, "issues", customId), issueData);
-    alert("Issue submitted successfully!");
-  } catch (error) {
-    console.error("error", error);
-    alert("Error submitting the issue.");
-  }
+      if (response.ok) {
+        alert(result.message);
+      } else {
+        alert("❌ שגיאה בשרת: " + result.message);
+      }
+    } catch (error) {
+      console.error("🔥 שגיאת fetch:", error);
+      alert("אירעה שגיאה בעת שליחת הדיווח.");
+    }
+  });
 });
