@@ -9,8 +9,9 @@ document.getElementById("issueForm").addEventListener("submit", async (e) => {
   const name = document.querySelector('input[name="name"]').value;
   const email = document.querySelector('input[name="email"]').value;
   const description = document.querySelector('textarea[name="description"]').value;
-  const systemnumber = document.querySelector('input[name="systemnumber"]').value;
-  const date = document.querySelector('input[name="date"]').value;
+  const systemnumber = document.querySelector('input[name="system number"]').value;
+  const failersolved = Document.querySelector('inputname= "failure solved?"]').value;
+  const date = document.querySelector('inputname="date"]').value;
   const location = document.querySelector('input[name="location"]').value;
 
 
@@ -23,6 +24,7 @@ document.getElementById("issueForm").addEventListener("submit", async (e) => {
     email,
     description,
     systemnumber,
+    failersolved,
     location,
     date: new Date().toISOString()
   };
