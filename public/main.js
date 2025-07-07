@@ -35,9 +35,9 @@ document.getElementById("issueForm").addEventListener("submit", async (e) => {
 
   try {
     await setDoc(doc(db, "issues", customId), issueData);
-    alert("הדיווח נשלח בהצלחה!");
+    alert("Send!");
   } catch (error) {
-    console.error("שגיאה בשליחה:", error);
-    alert("אירעה שגיאה בשליחת הדיווח.");
+    console.error("error", error);
+    alert("reporting error ");
   }
 });
