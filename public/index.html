@@ -12,19 +12,16 @@
     <input type="email" name="email" placeholder="Operator E-mail" required />
     <textarea name="description" placeholder="Failure Description" required></textarea>
 
-    <!-- שדות חדשים שנוספו -->
+    <!-- שדות חדשים -->
     <input type="text" name="systemnumber" placeholder="System Number" required />
     <input type="text" name="location" placeholder="Location" required />
-    <input type="failersolved" name="failuresolved" placeholder="failersolved" required />
+    <input type="text" name="failersolved" placeholder="Failure Solved" required />
     <input type="date" name="date" required />
-    
-
 
     <button type="submit">שלח</button>
   </form>
 
-  <!-- צ'אט-בוט -->
-  <!-- שים לב שצריך להטמיע iframe תקין כאן אם אתה באמת משתמש ב-Dialogflow -->
+  <!-- צ'אט-בוט (אם אתה משתמש ב-Dialogflow) -->
   <iframe
     width="350"
     height="430"
@@ -32,6 +29,14 @@
     src="https://console.dialogflow.com/api-client/demo/embedded/YOUR-BOT-ID">
   </iframe>
 
+  <!-- טיפול בשגיאות גלובליות -->
+  <script>
+    window.addEventListener("error", (e) => {
+      console.error("שגיאה כללית:", e.message);
+    });
+  </script>
+
+  <!-- קובץ ה-JS הראשי שלך -->
   <script type="module" src="main.js"></script>
 </body>
 </html>
