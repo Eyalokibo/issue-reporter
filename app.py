@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # מאפשר בקשות cross-origin
 
 engine = create_engine('sqlite:///issues.db')
 Base = declarative_base()
@@ -20,7 +20,7 @@ class Issue(Base):
     systemnumber = Column(String(100))
     location = Column(String(100))
     failersolved = Column(String(100))
-    date = Column(String(50))
+    date = Column(String(100))
     created_at = Column(DateTime, default=datetime.utcnow)
 
 Base.metadata.create_all(engine)
@@ -28,37 +28,37 @@ Session = sessionmaker(bind=engine)
 
 @app.route('/submit_issue', methods=['POST'])
 def submit_issue():
-    try:
-        data = request.json
-        session = Session()
-        issue = Issue(
-            name=data.get('name'),
-            email=data.get('email'),
-            description=data.get('description'),
-            systemnumber=data.get('systemnumber'),
-            location=data.get('location'),
-            failersolved=data.get('failersolved'),
-            date=data.get('date')
-        )
-        session.add(issue)
-        session.commit()
-        return jsonify({"message": "התקלה נשלחה בהצלחה!"}), 200
-    except Exception as e:
-        print("❌ שגיאה בשרת:", str(e))
-        return jsonify({"message": "שגיאה בשרת", "error": str(e)}), 500
+    data = request.json
+    session = Session()
+
+    issue = Issue(
+        name=data.get('name'),
+        email=data.get('email'),
+        description=data.get('description'),
+        systemnumber=data.get('systemnumber'),
+        location=data.get('location'),
+        failersolved=data.get('failersolved'),
+        date=data.get('date')
+    )
+    session.add(issue)
+    session.commit()
+
+    return jsonify({'message': 'התקלה נשלחה בהצלחה!'}), 200  # מחזיר JSON תקין עם קוד 200
 
 @app.route('/issues', methods=['GET'])
 def get_issues():
     session = Session()
     issues = session.query(Issue).all()
     return jsonify([{
+        'id': i.id,
         'name': i.name,
         'email': i.email,
         'description': i.description,
         'systemnumber': i.systemnumber,
         'location': i.location,
         'failersolved': i.failersolved,
-        'date': i.date
+        'date': i.date,
+        'created_at': i.created_at.isoformat()
     } for i in issues])
 
 if __name__ == '__main__':
