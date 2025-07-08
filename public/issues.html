@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reported Issues</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 All Reported Issues</h1>
+
+  <table id="issuesTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Description</th>
+        <th>System #</th>
+        <th>Location</th>
+        <th>Failure Solved</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- שורות יתווספו כאן -->
+    </tbody>
+  </table>
+
+  <script>
+    async function fetchIssues() {
+      try {
+        const response = await fetch("https://issue-reporter.onrender.com/issues");
+        const issues = await response.json();
+
+        const tbody = document.querySelector("#issuesTable tbody");
+        tbody.innerHTML = ""; // נקה טבלה
+
+        issues.forEach(issue => {
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${issue.name || ''}</td>
+            <td>${issue.email || ''}</td>
+            <td>${issue.description || ''}</td>
+            <td>${issue.systemnumber || ''}</td>
+            <td>${issue.location || ''}</td>
+            <td>${issue.failersolved || ''}</td>
+            <td>${issue.date || ''}</td>
+          `;
+
+          tbody.appendChild(row);
+        });
+
+      } catch (error) {
+        console.error("שגיאה בשליפת תקלות:", error);
+        const tbody = document.querySelector("#issuesTable tbody");
+        tbody.innerHTML = "<tr><td colspan='7'>שגיאה בטעינת הנתונים.</td></tr>";
+      }
+    }
+
+    fetchIssues();
+  </script>
+</body>
+</html>

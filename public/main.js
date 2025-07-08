@@ -32,8 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(issueData)
       });
 
-      const text = await response.text();
+      const text = await response.text(); // תגובת שרת גולמית
       console.log("📨 תגובת שרת (raw):", text);
+
+      if (!text) {
+        alert("⚠️ השרת לא החזיר תגובה.");
+        return;
+      }
 
       let result;
       try {
@@ -45,7 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (response.ok) {
-        alert(result.message || "התקלה נשלחה בהצלחה!");
+        // ✅ מעבר לדף הצלחה
+        window.location.href = "success.html";
       } else {
         alert("❌ שגיאה בשרת: " + (result.message || "לא ידועה"));
       }

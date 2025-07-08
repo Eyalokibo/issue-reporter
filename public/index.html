@@ -7,36 +7,42 @@
 </head>
 <body>
   <h1>System Failure Report</h1>
-  <form id="issueForm">
-    <input type="text" name="name" placeholder="Operator Full Name" required />
-    <input type="email" name="email" placeholder="Operator E-mail" required />
-    <textarea name="description" placeholder="Failure Description" required></textarea>
 
-    <!-- שדות חדשים -->
-    <input type="text" name="systemnumber" placeholder="System Number" required />
-    <input type="text" name="location" placeholder="Location" required />
-    <input type="text" name="failersolved" placeholder="Failure Solved" required />
-    <input type="date" name="date" required />
+  <form id="issueForm">
+    <label for="name">Operator Full Name</label>
+    <input type="text" id="name" name="name" placeholder="John Doe" required />
+
+    <label for="email">Operator Email</label>
+    <input type="email" id="email" name="email" placeholder="john@example.com" required />
+
+    <label for="description">Failure Description</label>
+    <textarea id="description" name="description" placeholder="Describe the issue..." required></textarea>
+
+    <label for="systemnumber">System Number</label>
+    <input type="text" id="systemnumber" name="systemnumber" placeholder="e.g. SYS123" required />
+
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location" placeholder="e.g. Server Room 2" required />
+
+    <label for="failersolved">Failure Solved (yes/no)</label>
+    <input type="text" id="failersolved" name="failersolved" placeholder="yes / no" required />
+
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date" required />
 
     <button type="submit">שלח</button>
   </form>
 
-  <!-- צ'אט-בוט (אם אתה משתמש ב-Dialogflow) -->
+  <!-- צ'אט-בוט (אם אתה רוצה להשאיר אותו) -->
   <iframe
+    title="Support Chatbot"
     width="350"
     height="430"
     allow="microphone;"
     src="https://console.dialogflow.com/api-client/demo/embedded/YOUR-BOT-ID">
   </iframe>
 
-  <!-- טיפול בשגיאות גלובליות -->
-  <script>
-    window.addEventListener("error", (e) => {
-      console.error("שגיאה כללית:", e.message);
-    });
-  </script>
-
-  <!-- קובץ ה-JS הראשי שלך -->
+  <!-- טעינת קובץ JavaScript -->
   <script type="module" src="main.js"></script>
 </body>
 </html>
